@@ -23,6 +23,7 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
 
     self.updateScore(metadata.score);
     self.updateBestScore(metadata.bestScore);
+    self.sum = metadata.sum;
     self.targetTile = metadata.targetTile;
 
     if (metadata.terminated) {
@@ -126,7 +127,9 @@ HTMLActuator.prototype.updateBestScore = function (bestScore) {
   this.bestContainer.textContent = bestScore;
 };
 
-HTMLActuator.prototype.message = function (won) {
+HTMLActuator.prototype.message = function (won) { 
+  if (this.sum == 262140)
+    won = true; //if the sum is 262140, game is completely beat
   var type    = won ? "game-won" : "game-over";
   var message = won ? "You win!" : "Game over!";
   this.messageContainer.classList.add(type);
@@ -138,11 +141,12 @@ HTMLActuator.prototype.message = function (won) {
   if (won) {
     var keepPlayingButton = this.messageContainer.querySelector(".keep-playing-button");
     keepPlayingButton.textContent = `Play for ${this.targetTile}!`;
+    if (this.sum == 262140)
+      keepPlayingButton.textContent = "Bask in your victory";
     keepPlayingButton.style.display = "inline-block";
 
     if (this.targetTile > 131072) {
-      keepPlayingButton.textContent = "Play for fun!";
-      this.messageContainer.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+      keepPlayingButton.textContent = "Beat the game!";
     }
   }
 };
