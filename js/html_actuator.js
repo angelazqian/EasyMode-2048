@@ -141,13 +141,11 @@ HTMLActuator.prototype.message = function (won) {
   if (won) {
     var keepPlayingButton = this.messageContainer.querySelector(".keep-playing-button");
     keepPlayingButton.textContent = `Play for ${this.targetTile}!`;
+    if (this.targetTile > 131072)
+      keepPlayingButton.textContent = "Beat the game!";
     if (this.sum == 262140)
       keepPlayingButton.textContent = "Bask in your victory";
     keepPlayingButton.style.display = "inline-block";
-
-    if (this.targetTile > 131072) {
-      keepPlayingButton.textContent = "Beat the game!";
-    }
   }
 };
 
